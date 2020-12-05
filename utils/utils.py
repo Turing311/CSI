@@ -24,14 +24,7 @@ class Logger(object):
             if not os.path.exists(logdir):
                 os.mkdir(logdir)
 
-            if len(os.listdir(logdir)) != 0 and ask:
-                ans = input("log_dir is not empty. All data inside log_dir will be deleted. "
-                            "Will you proceed [y/N]? ")
-                if ans in ['y', 'Y']:
-                    shutil.rmtree(logdir)
-                else:
-                    exit(1)
-
+            shutil.rmtree(logdir)
             self.set_dir(logdir)
 
     def _make_dir(self, fn):
