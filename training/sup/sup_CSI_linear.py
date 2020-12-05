@@ -73,7 +73,7 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, logger=None,
         rot_labels = torch.cat([torch.ones_like(labels) * k for k in range(4)], 0)  # B -> 4B
         joint_labels = torch.cat([labels + P.n_classes * i for i in range(4)], dim=0)
 
-        images = simclr_aug(images)  # simclr augmentation
+#        images = simclr_aug(images)  # simclr augmentation
         _, outputs_aux = model(images, penultimate=True)
         penultimate = outputs_aux['penultimate'].detach()
 

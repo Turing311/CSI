@@ -6,6 +6,7 @@ from torch.utils.data.dataset import Subset
 from torchvision import datasets, transforms
 
 from utils.utils import set_random_seed
+from datasets.datalmdb import DataLmdb
 
 DATA_PATH = '~/data/'
 IMAGENET_PATH = '~/data/ImageNet'
@@ -13,6 +14,7 @@ IMAGENET_PATH = '~/data/ImageNet'
 
 CIFAR10_SUPERCLASS = list(range(10))  # one class
 IMAGENET_SUPERCLASS = list(range(30))  # one class
+LIVE_SUPERCLASS = list(range(2))  # one class
 
 CIFAR100_SUPERCLASS = [
     [4, 31, 55, 72, 95],
@@ -225,6 +227,11 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=False, ev
         test_set = datasets.ImageFolder(test_dir, transform=test_transform)
         test_set = get_subset_with_len(test_set, length=3000, shuffle=True)
 
+    elif dataset == 'live':
+        train_set = DataLmdb("/kaggle/working/Fake/train", db_size=87690, crop_size=128, flip=True, scale=0.00390625)
+        test_set = DataLmdb("/kaggle/working/Fake/valid", db_size=28332, crop_size=128, flip=False, scale=0.00390625, random=False)
+        image_size = 128
+        n_classes = 2
     else:
         raise NotImplementedError()
 
@@ -241,6 +248,8 @@ def get_superclass_list(dataset):
         return CIFAR100_SUPERCLASS
     elif dataset == 'imagenet':
         return IMAGENET_SUPERCLASS
+    elif dataset == 'live':
+        return LIVE_SUPERCLASS
     else:
         raise NotImplementedError()
 
@@ -250,7 +259,8 @@ def get_subclass_dataset(dataset, classes):
         classes = [classes]
 
     indices = []
-    for idx, tgt in enumerate(dataset.targets):
+    for idx in range(len(dataset)):
+        (src, tgt) = dataset[idx]
         if tgt in classes:
             indices.append(idx)
 

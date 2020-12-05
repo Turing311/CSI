@@ -6,18 +6,18 @@ def parse_args(default=False):
 
     parser = ArgumentParser(description='Pytorch implementation of CSI')
 
-    parser.add_argument('--dataset', help='Dataset',
-                        choices=['cifar10', 'cifar100', 'imagenet'], type=str)
+    parser.add_argument('--dataset', help='Dataset', default='live',
+                        choices=['cifar10', 'cifar100', 'imagenet', 'live'], type=str)
     parser.add_argument('--one_class_idx', help='None: multi-class, Not None: one-class',
-                        default=None, type=int)
-    parser.add_argument('--model', help='Model',
-                        choices=['resnet18', 'resnet18_imagenet'], type=str)
+                        default=1, type=int)
+    parser.add_argument('--model', help='Model', default='live',
+                        choices=['resnet18', 'resnet18_imagenet', 'live'], type=str)
     parser.add_argument('--mode', help='Training mode',
-                        default='simclr', type=str)
+                        default='sup_CSI_linear', type=str)
     parser.add_argument('--simclr_dim', help='Dimension of simclr layer',
                         default=128, type=int)
 
-    parser.add_argument('--shift_trans_type', help='shifting transformation type', default='none',
+    parser.add_argument('--shift_trans_type', help='shifting transformation type', default='cutperm',
                         choices=['rotation', 'cutperm', 'none'], type=str)
 
     parser.add_argument("--local_rank", type=int,
@@ -25,8 +25,8 @@ def parse_args(default=False):
     parser.add_argument('--resume_path', help='Path to the resume checkpoint',
                         default=None, type=str)
     parser.add_argument('--load_path', help='Path to the loading checkpoint',
-                        default=None, type=str)
-    parser.add_argument("--no_strict", help='Do not strictly load state_dicts',
+                        default='models/live.pth', type=str)
+    parser.add_argument("--no_strict", help='Do not strictly load state_dicts', default=True,
                         action='store_true')
     parser.add_argument('--suffix', help='Suffix for the log dir',
                         default=None, type=str)
