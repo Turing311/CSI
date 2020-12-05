@@ -4,6 +4,7 @@ from utils.utils import save_linear_checkpoint
 
 from common.train import *
 from evals import test_classifier, evaluate
+from datasets.datalmdb import DataLmdb
 
 if 'sup' in P.mode:
     from training.sup import setup
