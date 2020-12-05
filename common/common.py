@@ -51,7 +51,7 @@ def parse_args(default=False):
     parser.add_argument('--weight_decay', help='Weight decay',
                         default=1e-6, type=float)
     parser.add_argument('--batch_size', help='Batch size',
-                        default=128, type=int)
+                        default=32, type=int)
     parser.add_argument('--test_batch_size', help='Batch size for test loader',
                         default=100, type=int)
 
