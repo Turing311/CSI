@@ -54,7 +54,7 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, logger=None,
         rot_sim_labels = torch.cat([labels + P.n_classes * i for i in range(4)], dim=0)
         rot_sim_labels = rot_sim_labels.to(device)
 
-        images_pair = simclr_aug(images_pair)  # simclr augment
+#        images_pair = simclr_aug(images_pair)  # simclr augment
         _, outputs_aux = model(images_pair, simclr=True, penultimate=True)
 
         simclr = normalize(outputs_aux['simclr'])  # normalize
