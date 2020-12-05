@@ -4,6 +4,7 @@ from utils.utils import save_linear_checkpoint
 
 from common.train import *
 from evals import test_classifier, evaluate
+from datasets.datalmdb import DataLmdb
 
 if 'sup' in P.mode:
     from training.sup import setup
@@ -16,8 +17,10 @@ logger.log(P)
 logger.log(model)
 
 #############################
+dev_dl = torch.utils.data.DataLoader(DataLmdb("/kaggle/working/Fake/valid", db_size=28332, crop_size=128, flip=False, scale=0.00390625, random=False),
+    batch_size=128, shuffle=False)
 model.eval()
-evaluate(model, test_loader)
+evaluate(model, dev_dl)
 print('========================== DONE =======================')
 #############################
 
@@ -44,7 +47,7 @@ for epoch in range(start_epoch, P.epochs + 1):
         else:
             save_states = model.state_dict()
         
-        evaluate(model, test_loader)
+        evaluate(model, dev_dl)
         save_checkpoint(epoch, save_states, optimizer.state_dict(), logger.logdir)
         save_linear_checkpoint(linear_optim.state_dict(), logger.logdir)
 

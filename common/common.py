@@ -23,7 +23,7 @@ def parse_args(default=False):
     parser.add_argument("--local_rank", type=int,
                         default=0, help='Local rank for distributed learning')
     parser.add_argument('--resume_path', help='Path to the resume checkpoint',
-                        default='logs/live_live_sup_CSI_linear', type=str)
+                        default=None, type=str)
     parser.add_argument('--load_path', help='Path to the loading checkpoint',
                         default='models/live.pth', type=str)
     parser.add_argument("--no_strict", help='Do not strictly load state_dicts', default=True,
@@ -37,7 +37,7 @@ def parse_args(default=False):
 
     ##### Training Configurations #####
     parser.add_argument('--epochs', help='Epochs',
-                        default=1000, type=int)
+                        default=2000, type=int)
     parser.add_argument('--optimizer', help='Optimizer',
                         choices=['sgd', 'adam', 'lars'],
                         default='lars', type=str)
