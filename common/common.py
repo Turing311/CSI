@@ -13,7 +13,7 @@ def parse_args(default=False):
     parser.add_argument('--model', help='Model', default='live',
                         choices=['resnet18', 'resnet18_imagenet', 'live'], type=str)
     parser.add_argument('--mode', help='Training mode',
-                        default='sup_CSI_linear', type=str)
+                        default='sup_simclr_CSI', type=str)
     parser.add_argument('--simclr_dim', help='Dimension of simclr layer',
                         default=128, type=int)
 
@@ -23,9 +23,9 @@ def parse_args(default=False):
     parser.add_argument("--local_rank", type=int,
                         default=0, help='Local rank for distributed learning')
     parser.add_argument('--resume_path', help='Path to the resume checkpoint',
-                        default='logs/live_live_sup_CSI_linear', type=str)
+                        default=None, type=str)
     parser.add_argument('--load_path', help='Path to the loading checkpoint',
-                        default='models/live.pth', type=str)
+                        default=None, type=str)
     parser.add_argument("--no_strict", help='Do not strictly load state_dicts', default=True,
                         action='store_true')
     parser.add_argument('--suffix', help='Suffix for the log dir',
