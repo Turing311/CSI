@@ -10,7 +10,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 hflip = TL.HorizontalFlipLayer().to(device)
 
 
-def train(P, epoch, model, criterion, optimizer, scheduler, loader, logger=None,
+def train(P, epoch, start_epoch, model, criterion, optimizer, scheduler, loader, logger=None,
           simclr_aug=None, linear=None, linear_optim=None):
 
     if P.multi_gpu:
@@ -20,12 +20,13 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, logger=None,
         rotation_linear = model.shift_cls_layer
         joint_linear = model.joint_distribution_layer
 
-    if epoch == 1:
+    if epoch == start_epoch:
         # define optimizer and save in P (argument)
         milestones = [int(0.6 * P.epochs), int(0.75 * P.epochs), int(0.9 * P.epochs)]
 
-        linear_optim = torch.optim.SGD(linear.parameters(),
-                                       lr=1e-1, weight_decay=P.weight_decay)
+        if linear_optim is None:
+            linear_optim = torch.optim.SGD(linear.parameters(),
+                                        lr=1e-1, weight_decay=P.weight_decay)
         P.linear_optim = linear_optim
         P.linear_scheduler = lr_scheduler.MultiStepLR(P.linear_optim, gamma=0.1, milestones=milestones)
 

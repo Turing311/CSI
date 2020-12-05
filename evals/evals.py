@@ -12,6 +12,7 @@ from sklearn.metrics import roc_auc_score
 import models.transform_layers as TL
 from utils.temperature_scaling import _ECELoss
 from utils.utils import AverageMeter, set_random_seed, normalize
+from torch.autograd import Variable
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 ece_criterion = _ECELoss().to(device)
@@ -80,6 +81,39 @@ def test_classifier(P, model, loader, steps, marginal=False, logger=None):
     model.train(mode)
 
     return error_top1.average
+
+def evaluate(model, dataloader):
+    """Evaluate the model on `num_steps` batches.
+
+    Args:
+        model: (torch.nn.Module) the neural network
+        loss_fn: a function that takes batch_output and batch_labels and computes the loss for the batch
+        dataloader: (DataLoader) a torch.utils.data.DataLoader object that fetches data
+        metrics: (dict) a dictionary of functions that compute a metric using the output and labels of each batch
+        params: (Params) hyperparameters
+        num_steps: (int) number of batches to train on, each of size params.batch_size
+    """
+
+    # set model to evaluation mode
+    model.eval()
+    total = 0
+    correct = 0
+
+    # compute metrics over the dataset
+    for data_batch, labels_batch in dataloader:
+
+        data_batch, labels_batch = data_batch.cuda(), labels_batch.cuda()
+
+        data_batch, labels_batch = Variable(data_batch), Variable(labels_batch)
+        # compute model output
+        output_batch = model(data_batch)
+
+        _, predicted = output_batch.max(1)
+        total += labels_batch.size(0)
+        correct += predicted.eq(labels_batch).sum().item()
+
+    acc = 100.*correct/total
+    print("- Eval metrics, acc:{acc:.4f}".format(acc=acc))
 
 
 def eval_ood_detection(P, model, id_loader, ood_loaders, ood_scores, train_loader=None, simclr_aug=None):

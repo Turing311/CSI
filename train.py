@@ -3,7 +3,7 @@ from utils.utils import save_checkpoint
 from utils.utils import save_linear_checkpoint
 
 from common.train import *
-from evals import test_classifier
+from evals import test_classifier, evaluate
 
 if 'sup' in P.mode:
     from training.sup import setup
@@ -15,11 +15,11 @@ logger = Logger(fname, ask=not resume, local_rank=P.local_rank)
 logger.log(P)
 logger.log(model)
 
-if P.multi_gpu:
-    linear = model.module.linear
-else:
-    linear = model.linear
-linear_optim = torch.optim.Adam(linear.parameters(), lr=1e-3, betas=(.9, .999), weight_decay=P.weight_decay)
+#############################
+model.eval()
+evaluate(model, test_loader)
+print('========================== DONE =======================')
+#############################
 
 # Run experiments
 for epoch in range(start_epoch, P.epochs + 1):
@@ -34,9 +34,10 @@ for epoch in range(start_epoch, P.epochs + 1):
     kwargs['linear_optim'] = linear_optim
     kwargs['simclr_aug'] = simclr_aug
 
-    train(P, epoch, model, criterion, optimizer, scheduler_warmup, train_loader, logger=logger, **kwargs)
+    train(P, epoch, start_epoch, model, criterion, optimizer, scheduler_warmup, train_loader, logger=logger, **kwargs)
 
     model.eval()
+    evaluate(model, test_loader)
 
     if epoch % P.save_step == 0 and P.local_rank == 0:
         if P.multi_gpu:

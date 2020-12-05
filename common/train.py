@@ -126,13 +126,22 @@ else:
 from training.scheduler import GradualWarmupScheduler
 scheduler_warmup = GradualWarmupScheduler(optimizer, multiplier=10.0, total_epoch=P.warmup, after_scheduler=scheduler)
 
+if P.multi_gpu:
+    linear = model.module.linear
+else:
+    linear = model.linear
+
+linear_optim = torch.optim.Adam(linear.parameters(), lr=1e-3, betas=(.9, .999), weight_decay=P.weight_decay)
+
 if P.resume_path is not None:
     resume = True
-    model_state, optim_state, config = load_checkpoint(P.resume_path, mode='last')
+    model_state, optim_state, linear_optim_state, config = load_checkpoint(P.resume_path, mode='last')
     model.load_state_dict(model_state, strict=not P.no_strict)
     optimizer.load_state_dict(optim_state)
+    linear_optim.load_state_dict(linear_optim_state)
+    
     start_epoch = config['epoch']
-    best = config['best']
+    best = 100.0  #config['best']
     error = 100.0
 else:
     resume = False
@@ -140,7 +149,7 @@ else:
     best = 100.0
     error = 100.0
 
-if P.mode == 'sup_linear' or P.mode == 'sup_CSI_linear':
+if P.resume_path is None and P.mode == 'sup_linear' or P.mode == 'sup_CSI_linear':
     assert P.load_path is not None
     checkpoint = torch.load(P.load_path)
     model.load_state_dict(checkpoint, strict=not P.no_strict)

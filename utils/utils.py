@@ -119,10 +119,12 @@ def load_checkpoint(logdir, mode='last'):
         optim_state = torch.load(optim_path)
         with open(config_path, 'rb') as handle:
             cfg = pickle.load(handle)
+        
+        linear_optim_state = load_linear_checkpoint(logdir=logdir)
     else:
         return None, None, None
 
-    return model_state, optim_state, cfg
+    return model_state, optim_state, linear_optim_state, cfg
 
 
 def save_checkpoint(epoch, model_state, optim_state, logdir):

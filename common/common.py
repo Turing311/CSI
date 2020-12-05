@@ -23,7 +23,7 @@ def parse_args(default=False):
     parser.add_argument("--local_rank", type=int,
                         default=0, help='Local rank for distributed learning')
     parser.add_argument('--resume_path', help='Path to the resume checkpoint',
-                        default=None, type=str)
+                        default='logs/live_live_sup_CSI_linear', type=str)
     parser.add_argument('--load_path', help='Path to the loading checkpoint',
                         default='models/live.pth', type=str)
     parser.add_argument("--no_strict", help='Do not strictly load state_dicts', default=True,
