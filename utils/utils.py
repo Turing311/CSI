@@ -121,9 +121,9 @@ def load_checkpoint(logdir, mode='last'):
 
 
 def save_checkpoint(epoch, model_state, optim_state, logdir):
-    last_model = os.path.join(logdir, 'last.model')
-    last_optim = os.path.join(logdir, 'last.optim')
-    last_config = os.path.join(logdir, 'last.config')
+    last_model = os.path.join(logdir, 'last_%d.model' % epoch)
+    last_optim = os.path.join(logdir, 'last_%d.optim' % epoch)
+    last_config = os.path.join(logdir, 'last_%d.config' % epoch)
 
     opt = {
         'epoch': epoch,
@@ -150,8 +150,8 @@ def load_linear_checkpoint(logdir, mode='last'):
         return None
 
 
-def save_linear_checkpoint(linear_optim_state, logdir):
-    last_linear_optim = os.path.join(logdir, 'last.linear_optim')
+def save_linear_checkpoint(epoch, linear_optim_state, logdir):
+    last_linear_optim = os.path.join(logdir, 'last_%d.linear_optim' % epoch)
     torch.save(linear_optim_state, last_linear_optim)
 
 

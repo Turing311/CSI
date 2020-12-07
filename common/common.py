@@ -31,13 +31,13 @@ def parse_args(default=False):
     parser.add_argument('--suffix', help='Suffix for the log dir',
                         default=None, type=str)
     parser.add_argument('--error_step', help='Epoch steps to compute errors',
-                        default=5, type=int)
+                        default=1, type=int)
     parser.add_argument('--save_step', help='Epoch steps to save models',
-                        default=3, type=int)
+                        default=1, type=int)
 
     ##### Training Configurations #####
     parser.add_argument('--epochs', help='Epochs',
-                        default=200, type=int)
+                        default=36, type=int)
     parser.add_argument('--optimizer', help='Optimizer',
                         choices=['sgd', 'adam', 'lars'],
                         default='lars', type=str)
@@ -47,7 +47,7 @@ def parse_args(default=False):
     parser.add_argument('--warmup', help='Warm-up epochs',
                         default=10, type=int)
     parser.add_argument('--lr_init', help='Initial learning rate',
-                        default=1e-1, type=float)
+                        default=1e-2, type=float)
     parser.add_argument('--weight_decay', help='Weight decay',
                         default=1e-6, type=float)
     parser.add_argument('--batch_size', help='Batch size',
