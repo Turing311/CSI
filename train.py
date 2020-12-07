@@ -20,7 +20,7 @@ logger.log(model)
 dev_dl = torch.utils.data.DataLoader(DataLmdb("/kaggle/working/Fake/valid", db_size=28332, crop_size=128, flip=False, scale=0.00390625, random=False),
     batch_size=128, shuffle=False)
 model.eval()
-evaluate(model, test_loader)
+evaluate(model, dev_dl)
 print('========================== DONE =======================')
 #############################
 
