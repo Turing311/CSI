@@ -25,7 +25,7 @@ def parse_args(default=False):
     parser.add_argument('--resume_path', help='Path to the resume checkpoint',
                         default=None, type=str)
     parser.add_argument('--load_path', help='Path to the loading checkpoint',
-                        default='models/live.pth', type=str)
+                        default=None, type=str)
     parser.add_argument("--no_strict", help='Do not strictly load state_dicts', default=True,
                         action='store_true')
     parser.add_argument('--suffix', help='Suffix for the log dir',

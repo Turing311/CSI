@@ -70,7 +70,8 @@ def get_classifier(mode, n_classes=10):
     elif mode == 'resnet50_imagenet':
         classifier = resnet50(num_classes=n_classes)
     elif mode == 'live':
-        classifier = LiveModel()
+        classifier = ResNet18(num_classes=n_classes)
+#        classifier = LiveModel()
     else:
         raise NotImplementedError()
 
