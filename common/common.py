@@ -33,7 +33,7 @@ def parse_args(default=False):
     parser.add_argument('--error_step', help='Epoch steps to compute errors',
                         default=5, type=int)
     parser.add_argument('--save_step', help='Epoch steps to save models',
-                        default=5, type=int)
+                        default=3, type=int)
 
     ##### Training Configurations #####
     parser.add_argument('--epochs', help='Epochs',

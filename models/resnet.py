@@ -180,7 +180,7 @@ class ResNet(BaseModel):
 
 
 def ResNet18(num_classes):
-    return ResNet(BasicBlock, [1,2,1,1], num_classes=num_classes)
+    return ResNet(BasicBlock, [1,1,1,1], num_classes=num_classes)
 
 def ResNet34(num_classes):
     return ResNet(BasicBlock, [3,4,6,3], num_classes=num_classes)
