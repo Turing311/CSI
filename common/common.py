@@ -17,7 +17,7 @@ def parse_args(default=False):
     parser.add_argument('--simclr_dim', help='Dimension of simclr layer',
                         default=128, type=int)
 
-    parser.add_argument('--shift_trans_type', help='shifting transformation type', default='rotation',
+    parser.add_argument('--shift_trans_type', help='shifting transformation type', default='cutperm',
                         choices=['rotation', 'cutperm', 'none'], type=str)
 
     parser.add_argument("--local_rank", type=int,
@@ -37,7 +37,7 @@ def parse_args(default=False):
 
     ##### Training Configurations #####
     parser.add_argument('--epochs', help='Epochs',
-                        default=36, type=int)
+                        default=20, type=int)
     parser.add_argument('--optimizer', help='Optimizer',
                         choices=['sgd', 'adam', 'lars'],
                         default='lars', type=str)
