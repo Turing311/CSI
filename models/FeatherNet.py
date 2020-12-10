@@ -145,7 +145,6 @@ class FeatherNet(BaseModel):
 #        x = self.final_DW(x)
         
         x = x.view(x.size(0), -1)
-        print('========shape', x.shape)
         return x
 
     def _initialize_weights(self):
