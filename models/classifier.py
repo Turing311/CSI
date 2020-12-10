@@ -4,7 +4,7 @@ from models.resnet import ResNet18, ResNet34, ResNet50
 from models.resnet_imagenet import resnet18, resnet50
 import models.transform_layers as TL
 from models.live import LiveModel
-from FeatherNet import FeatherNet
+from models.FeatherNet import FeatherNet
 
 def get_simclr_augmentation(P, image_size):
 

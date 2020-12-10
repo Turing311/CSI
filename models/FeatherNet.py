@@ -3,6 +3,7 @@
 import torch.nn as nn
 import math
 import torch
+from models.base_model import BaseModel
 
 def conv_bn(inp, oup, stride):
     return nn.Sequential(
