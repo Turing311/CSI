@@ -228,7 +228,7 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=False, ev
         test_set = get_subset_with_len(test_set, length=3000, shuffle=True)
 
     elif dataset == 'live':
-        train_set = DataLmdb("/kaggle/working/Fakej/train", db_size=78404, crop_size=128, flip=True, scale=0.00390625)
+        train_set = DataLmdb("/kaggle/working/Fakej/train", db_size=38566, crop_size=128, flip=True, scale=0.00390625)
         test_set = DataLmdb("/kaggle/working/Fakej/valid", db_size=38566, crop_size=128, flip=False, scale=0.00390625, random=False)
         image_size = 128
         n_classes = 2

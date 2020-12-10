@@ -37,7 +37,7 @@ def parse_args(default=False):
 
     ##### Training Configurations #####
     parser.add_argument('--epochs', help='Epochs',
-                        default=20, type=int)
+                        default=50, type=int)
     parser.add_argument('--optimizer', help='Optimizer',
                         choices=['sgd', 'adam', 'lars'],
                         default='lars', type=str)
