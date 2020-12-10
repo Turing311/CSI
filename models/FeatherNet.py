@@ -85,7 +85,7 @@ class InvertedResidual(nn.Module):
 
 class FeatherNet(BaseModel):
     def __init__(self, n_class=2, input_size=224, se = False, avgdown=False, width_mult=1.):
-        self.last_dim = 512
+        self.last_dim = 1024
         super(FeatherNet, self).__init__(self.last_dim, n_class)
         block = InvertedResidual
         input_channel = 32
@@ -145,6 +145,7 @@ class FeatherNet(BaseModel):
 #        x = self.final_DW(x)
         
         x = x.view(x.size(0), -1)
+        print('========shape', x.shape)
         return x
 
     def _initialize_weights(self):
